@@ -1,10 +1,9 @@
-// import './App.css'
-
+import Layout from '../../components/layout'
 function MyAccount() {
   return (
-    <div className="bg-red-300">
-      MyAccount
-    </div>
+    <Layout>
+      My Account
+    </Layout>
   )
 }
 

@@ -1,10 +1,10 @@
-// import './App.css'
+import Layout from '../../components/layout'
 
 function SignIn() {
   return (
-    <div className="bg-red-300">
-      SignIn
-    </div>
+    <Layout>
+      Sign In
+    </Layout>
   )
 }
 

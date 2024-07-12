@@ -1,10 +1,10 @@
-// import './App.css'
+import Layout from '../../components/layout'
 
 function Home() {
   return (
-    <div className="bg-red-300">
+    <Layout>
       Home
-    </div>
+    </Layout>
   )
 }
 

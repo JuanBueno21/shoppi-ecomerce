@@ -1,10 +1,10 @@
-// import './App.css'
+import Layout from '../../components/layout'
 
 function MyOrders() {
   return (
-    <div className="bg-red-300">
-      MyOrders
-    </div>
+    <Layout>
+      My Order
+    </Layout>
   )
 }
 

@@ -1,10 +1,10 @@
-// import './App.css'
+import Layout from '../../components/layout'
 
 function NotFount() {
   return (
-    <div className="bg-red-300">
-      NotFount
-    </div>
+    <Layout>
+      Not Fount
+    </Layout>
   )
 }
 
