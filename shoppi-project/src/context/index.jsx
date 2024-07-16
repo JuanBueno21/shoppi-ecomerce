@@ -1,12 +1,17 @@
-import { createContext } from "react";
 
-const ShoppingCardContext = createContext()
+import { createContext, useState } from "react";
 
-export const ShoppingCardProvider = ({ children }) => {
+export const ShoppingCardContext = createContext()
+
+export const ShoppingCardProvider = ({children}) => {
+  const [count, setCount] = useState(0)
+
   return (
-    <ShoppingCardContext.Provider>
+    <ShoppingCardContext.Provider value={{
+      count,
+      setCount
+    }}>
       {children}
     </ShoppingCardContext.Provider>
   )
-
 }
