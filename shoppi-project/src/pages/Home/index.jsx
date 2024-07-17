@@ -9,8 +9,14 @@ function Home() {
   useEffect(() => {
     fetch("https://api.escuelajs.co/api/v1/products")
       .then(response => response.json())
-      .then(data => setItems(data))
-  }, [])
+      .then(data => {
+        const transformedData = data.map(item => ({
+          ...item,
+          image: item.images[0]?.replace(/[\[\]"]/g, '') || ''
+        }));
+        setItems(transformedData);
+      });
+  }, []);
 
   return (
     <Layout>
