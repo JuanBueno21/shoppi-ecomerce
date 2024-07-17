@@ -2,8 +2,14 @@ import { useContext } from "react";
 import { PlusIcon } from '@heroicons/react/24/solid'
 import { ShoppingCardContext } from "../../context"
 
-const Card = (data) => {
-  const context = useContext(ShoppingCardContext)
+const Card = ({ data }) => {
+  const context = useContext(ShoppingCardContext);
+
+  const showProduct = (productDetail) => {
+    context.openProductDetail();
+    context.setPoductShow(productDetail);
+
+  }
 
   return (
     <div
