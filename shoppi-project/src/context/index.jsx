@@ -22,9 +22,6 @@ export const ShoppingCardProvider = ({ children }) => {
   const openCheckoutSideMenu = () => setIsCheckoutSideMenuOpen(true)
   const closeCheckoutSideMenu = () => setIsCheckoutSideMenuOpen(false)
 
-
-
-
   return (
     <ShoppingCardContext.Provider value={{
       count,
