@@ -1,9 +1,27 @@
+import { useContext } from "react"
+import { Link } from "react-router-dom"
 import Layout from '../../components/layout'
+import { ShoppingCardContext } from "../../context"
+import OrdersCard from "../../components/ordersCard"
 
 function MyOrders() {
+  const context = useContext(ShoppingCardContext);
+
+
   return (
     <Layout>
-      My Order
+      <div className="flex items-center justify-center relative w-80 ">
+        <h1>My Orders</h1>
+      </div>
+      {
+        context.order.map((order) => {
+          <Link to={`/my-orders/${order.id}`}>
+            <OrdersCard
+              totalPrice={order.totalPrice}
+              totalProducts={order.totalProducts} />
+          </Link>
+        })
+      }
     </Layout>
   )
 }
