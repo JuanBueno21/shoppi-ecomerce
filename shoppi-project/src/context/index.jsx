@@ -3,34 +3,37 @@ import { createContext, useState, useEffect } from "react";
 export const ShoppingCardContext = createContext()
 export const ShoppingCardProvider = ({ children }) => {
 
-  //shopping card: counter cart
+  //Shopping card: counter cart
   const [count, setCount] = useState(0)
 
-  // product detail: open/close
+  // Product detail: open/close
   const [isProductDetailOpen, setIsProductDetailOpen] = useState(false)
   const openProductDetail = () => setIsProductDetailOpen(true)
   const closeProductDetail = () => setIsProductDetailOpen(false)
 
-  // product detail : show product
+  // Product detail : show product
   const [productShow, setPoductShow] = useState({})
 
-  // shopping cart : add products to cart
+  // Shopping cart : add products to cart
   const [cartProducts, setCartProducts] = useState([])
 
-  // checkout side menu: open/close
+  // Checkout side menu: open/close
   const [isCheckoutSideMenuOpen, setIsCheckoutSideMenuOpen] = useState(false)
   const openCheckoutSideMenu = () => setIsCheckoutSideMenuOpen(true)
   const closeCheckoutSideMenu = () => setIsCheckoutSideMenuOpen(false)
 
-  // shopping cart: order
+  // Shopping cart: order
   const [order, setOrder] = useState([])
 
-  // get products
+  // Get products
   const [items, setItems] = useState(null)
   const [filteredItems, setFilteredItems] = useState(null)
 
-  // get products by title
+  // Get products by title
   const [searchByTitle, setSearchByTitle] = useState(null)
+
+  // Get products by category
+  const [searchByCategory, setSearchByCategory] = useState(null)  
 
   useEffect(() => {
     fetch("https://api.escuelajs.co/api/v1/products")
@@ -48,9 +51,37 @@ export const ShoppingCardProvider = ({ children }) => {
     return items?.filter(item => item.title.toLowerCase().includes(searchByTitle.toLowerCase()))
   }
 
+  const filteredItemsByCategory = (items, searchByCategory) => {
+    // console.log("items: ", items);
+    return items?.filter(item => item.category.name.toLowerCase().includes(searchByCategory.toLowerCase()))
+  }
+
+  const filterBy = (searchType, items, searchByTitle, searchByCategory) => {
+    if (searchType === "BY_TITLE") {
+      return filteredItemsByTitle(items, searchByTitle)
+    }
+    if (searchType === "BY_CATEGORY") {
+      return filteredItemsByCategory(items, searchByCategory)
+    }
+    if (searchType === "BY_TITLE_AND_CATEGORY") {
+      return filteredItemsByCategory(items, searchByCategory).filter(item => item.title.toLowerCase().includes(searchByTitle.toLowerCase()))
+    }
+    if (!searchType) {
+      return items
+    }
+  }
+
   useEffect(() => {
-    if (searchByTitle) setFilteredItems(filteredItemsByTitle(items, searchByTitle))
-  }, [items, searchByTitle])
+    if (searchByTitle && searchByCategory) setFilteredItems(filterBy("BY_TITLE_AND_CATEGORY", items, searchByTitle, searchByCategory))
+    if (searchByTitle && !searchByCategory) setFilteredItems(filterBy("BY_TITLE", items, searchByTitle, searchByCategory))
+    if (!searchByTitle && searchByCategory) setFilteredItems(filterBy("BY_CATEGORY", items, searchByTitle, searchByCategory))
+    if (!searchByTitle && !searchByCategory) setFilteredItems(filterBy(null ,items, searchByTitle, searchByCategory))
+  }, [items, searchByTitle, searchByCategory])
+
+
+  console.log("filteredItems: ", filteredItems)
+
+
 
   return (
     <ShoppingCardContext.Provider value={{
@@ -81,6 +112,9 @@ export const ShoppingCardProvider = ({ children }) => {
       setSearchByTitle,
 
       filteredItems,
+
+      searchByCategory,
+      setSearchByCategory,
     }}>
       {children}
     </ShoppingCardContext.Provider>
