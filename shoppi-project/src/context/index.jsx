@@ -33,7 +33,7 @@ export const ShoppingCardProvider = ({ children }) => {
   const [searchByTitle, setSearchByTitle] = useState(null)
 
   // Get products by category
-  const [searchByCategory, setSearchByCategory] = useState(null)  
+  const [searchByCategory, setSearchByCategory] = useState(null)
 
   useEffect(() => {
     fetch("https://api.escuelajs.co/api/v1/products")
@@ -41,7 +41,7 @@ export const ShoppingCardProvider = ({ children }) => {
       .then(data => {
         const transformedData = data.map(item => ({
           ...item,
-          image: item.images[0]?.replace(/[\[\]"]/g, '') || ''
+          image: item.images[1]?.replace(/[\[\]"]/g, '') || ''
         }));
         setItems(transformedData);
       });
@@ -52,7 +52,6 @@ export const ShoppingCardProvider = ({ children }) => {
   }
 
   const filteredItemsByCategory = (items, searchByCategory) => {
-    // console.log("items: ", items);
     return items?.filter(item => item.category.name.toLowerCase().includes(searchByCategory.toLowerCase()))
   }
 
@@ -75,13 +74,8 @@ export const ShoppingCardProvider = ({ children }) => {
     if (searchByTitle && searchByCategory) setFilteredItems(filterBy("BY_TITLE_AND_CATEGORY", items, searchByTitle, searchByCategory))
     if (searchByTitle && !searchByCategory) setFilteredItems(filterBy("BY_TITLE", items, searchByTitle, searchByCategory))
     if (!searchByTitle && searchByCategory) setFilteredItems(filterBy("BY_CATEGORY", items, searchByTitle, searchByCategory))
-    if (!searchByTitle && !searchByCategory) setFilteredItems(filterBy(null ,items, searchByTitle, searchByCategory))
+    if (!searchByTitle && !searchByCategory) setFilteredItems(filterBy(null, items, searchByTitle, searchByCategory))
   }, [items, searchByTitle, searchByCategory])
-
-
-  console.log("filteredItems: ", filteredItems)
-
-
 
   return (
     <ShoppingCardContext.Provider value={{

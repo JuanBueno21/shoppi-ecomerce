@@ -8,7 +8,6 @@ import "./style.css"
 
 const CheckoutSideMenu = () => {
   const context = useContext(ShoppingCardContext);
-  // console.log("CART: ", context.cartProducts);
 
   const handleDelete = (id) => {
     const filteredProducts = context.cartProducts.filter(product => product.id != id);
@@ -24,6 +23,7 @@ const CheckoutSideMenu = () => {
     }
     context.setOrder([...context.order, orderAdd])
     context.setCartProducts([])
+    context.setSearchByTitle(null)
   }
 
   return (
@@ -46,7 +46,7 @@ const CheckoutSideMenu = () => {
             title={product.title}
             imageUrl={product.image}
             price={product.price}
-            handleDelete={handleDelete}
+            // handleDelete={handleDelete}
           />
         ))}
       </div>
